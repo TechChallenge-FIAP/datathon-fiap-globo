@@ -1,0 +1,29 @@
+services:
+  preprocess:
+    build:
+      context: .
+      dockerfile: Dockerfile.preprocess
+    volumes:
+      - .:/app
+
+  train:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    volumes:
+      - .:/app
+    depends_on:
+      preprocess:
+        condition: service_completed_successfully
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      train:
+        condition: service_completed_successfully
