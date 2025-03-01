@@ -16,7 +16,11 @@ user_df = pd.read_pickle("./pkl/preprocessed_users.pkl")
 indices = pd.Series(site_df.index, index=site_df["page"]).drop_duplicates()
 
 
-def get_recommendations(user_history):
+def get_recommendations(user_history=None):
+    if user_history is None:
+        recent_news = site_df.sort_values("Issued", ascending=False).head(10)
+        return recent_news["page"].tolist()
+
     idxs = [indices.get(page) for page in user_history if indices.get(page) is not None]
 
     if not idxs:
@@ -62,9 +66,9 @@ def recommend(userId: str):
     user = user_df[user_df["userId"] == userId]
 
     if user.empty:
-        raise HTTPException(status_code=404, detail="Usuário não encontrado")
-
-    user_history = user.iloc[0]["history"]
-    recommendations = get_recommendations(user_history)
+        recommendations = get_recommendations()
+    else:
+        user_history = user.iloc[0]["history"]
+        recommendations = get_recommendations(user_history)
 
     return {"userId": userId, "recommendations": recommendations}

@@ -1,5 +1,3 @@
-# test_app.py
-
 import requests
 
 
