@@ -177,7 +177,9 @@ pyrightconfig.json
 .vscode/
 # End of https://www.toptal.com/developers/gitignore/api/python
 
-datathon_zip/challenge-webmedia-e-globo-2023.zip
+datathon_zip/*
+
+!datathon_zip/.files
 
 *.pkl
 

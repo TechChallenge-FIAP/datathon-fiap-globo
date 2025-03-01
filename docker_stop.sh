@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Parando a API..."
-docker stop container_api
-docker rm container_api
+sudo docker stop container_api
+sudo docker rm container_api
 
 echo "Processo concluído."
